@@ -1,0 +1,58 @@
+<div class="container mt-4">
+  <div class="card card-brand">
+    <div class="card-header card-header-brand d-flex justify-content-between align-items-center">
+      <h3 class="m-0">{{ isEditMode ? 'Editar Proveedor' : 'Registrar Proveedor' }}</h3>
+      <a class="btn btn-sm btn-back" routerLink="/proveedores">
+        <i class="bi bi-arrow-left"></i> Volver
+      </a>
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label" for="nombre">Nombre</label>
+            <input id="nombre" class="form-control" type="text" formControlName="nombre"
+              [class.is-invalid]="f['nombre'].touched && f['nombre'].invalid" placeholder="Ej: Textiles Andinos SAC"/>
+            <div class="invalid-feedback" *ngIf="f['nombre'].touched && f['nombre'].invalid">
+              <small *ngIf="f['nombre'].errors?.['required']">El nombre es obligatorio.</small>
+              <small *ngIf="f['nombre'].errors?.['minlength']">Mínimo 3 caracteres.</small>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label" for="ruc">RUC</label>
+            <input id="ruc" class="form-control" type="text" formControlName="ruc"
+              [class.is-invalid]="f['ruc'].touched && f['ruc'].invalid" placeholder="11 dígitos"/>
+            <div class="invalid-feedback" *ngIf="f['ruc'].touched && f['ruc'].invalid">
+              <small *ngIf="f['ruc'].errors?.['required']">El RUC es obligatorio.</small>
+              <small *ngIf="f['ruc'].errors?.['pattern']">Debe tener exactamente 11 dígitos.</small>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label" for="direccion">Dirección</label>
+            <input id="direccion" class="form-control" type="text" formControlName="direccion" placeholder="Ej: Av. Los Álamos 123"/>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label" for="telefono">Teléfono</label>
+            <input id="telefono" class="form-control" type="text" formControlName="telefono"
+              [class.is-invalid]="f['telefono'].touched && f['telefono'].invalid" placeholder="9 dígitos"/>
+            <div class="invalid-feedback" *ngIf="f['telefono'].touched && f['telefono'].invalid">
+              <small *ngIf="f['telefono'].errors?.['pattern']">Debe tener exactamente 9 dígitos.</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end mt-4">
+          <a class="btn btn-secondary me-2" routerLink="/proveedores">Cancelar</a>
+          <button class="btn btn-primary" type="submit" [disabled]="form.invalid || isLoading">
+            <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+            {{ isLoading ? 'Guardando...' : (isEditMode ? 'Actualizar' : 'Registrar') }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

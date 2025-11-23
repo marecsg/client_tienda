@@ -1,0 +1,92 @@
+<div class="container mt-4">
+  <div class="card card-brand">
+    <div class="card-header card-header-brand d-flex justify-content-between align-items-center">
+      <h3 class="m-0">{{ isEditMode ? 'Editar Cliente' : 'Registrar Cliente' }}</h3>
+
+      <!-- botón volver con estilo “claro” sobre header oscuro -->
+      <a class="btn btn-sm btn-back" routerLink="/clientes">
+        <i class="bi bi-arrow-left"></i> Volver
+      </a>
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
+        <div class="row g-3">
+
+          <div class="col-md-6">
+            <label for="nombres" class="form-label">Nombres</label>
+            <input
+              id="nombres"
+              type="text"
+              class="form-control"
+              [class.is-invalid]="clienteForm.get('nombres')?.invalid && clienteForm.get('nombres')?.touched"
+              formControlName="nombres"
+              placeholder="Ej: Juan Pérez"
+            />
+            <div class="invalid-feedback" *ngIf="clienteForm.get('nombres')?.touched && clienteForm.get('nombres')?.invalid">
+              <small *ngIf="clienteForm.get('nombres')?.errors?.['required']">Los nombres son obligatorios.</small>
+              <small *ngIf="clienteForm.get('nombres')?.errors?.['minlength']">Mínimo 3 caracteres.</small>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="dni" class="form-label">DNI</label>
+            <input
+              id="dni"
+              type="text"
+              class="form-control"
+              [class.is-invalid]="clienteForm.get('dni')?.invalid && clienteForm.get('dni')?.touched"
+              formControlName="dni"
+              placeholder="Ej: 12345678"
+            />
+            <div class="invalid-feedback" *ngIf="clienteForm.get('dni')?.touched && clienteForm.get('dni')?.invalid">
+              <small *ngIf="clienteForm.get('dni')?.errors?.['required']">El DNI es obligatorio.</small>
+              <small *ngIf="clienteForm.get('dni')?.errors?.['minlength']">Mínimo 8 caracteres.</small>
+              <small *ngIf="clienteForm.get('dni')?.errors?.['maxlength']">Máximo 12 caracteres.</small>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="direccion" class="form-label">Dirección</label>
+            <input
+              id="direccion"
+              type="text"
+              class="form-control"
+              [class.is-invalid]="clienteForm.get('direccion')?.invalid && clienteForm.get('direccion')?.touched"
+              formControlName="direccion"
+              placeholder="Ej: Jr. Los Álamos 123"
+            />
+            <div class="invalid-feedback" *ngIf="clienteForm.get('direccion')?.touched && clienteForm.get('direccion')?.invalid">
+              <small *ngIf="clienteForm.get('direccion')?.errors?.['required']">La dirección es obligatoria.</small>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input
+              id="telefono"
+              type="text"
+              class="form-control"
+              [class.is-invalid]="clienteForm.get('telefono')?.invalid && clienteForm.get('telefono')?.touched"
+              formControlName="telefono"
+              placeholder="Ej: 987654321"
+            />
+            <div class="invalid-feedback" *ngIf="clienteForm.get('telefono')?.touched && clienteForm.get('telefono')?.invalid">
+              <small *ngIf="clienteForm.get('telefono')?.errors?.['required']">El teléfono es obligatorio.</small>
+              <small *ngIf="clienteForm.get('telefono')?.errors?.['pattern']">Debe tener exactamente 9 dígitos numéricos.</small>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="d-flex justify-content-end mt-4 gap-2">
+          <a class="btn btn-secondary btn-cancel" routerLink="/clientes">Cancelar</a>
+          <button class="btn btn-primary btn-accent-primary" type="submit" [disabled]="clienteForm.invalid || isLoading">
+            <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+            {{ isLoading ? 'Guardando...' : (isEditMode ? 'Actualizar' : 'Registrar') }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

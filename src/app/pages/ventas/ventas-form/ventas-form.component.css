@@ -1,0 +1,27 @@
+@media print {
+  /* Oculta todo */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Muestra solo la boleta */
+  #boleta, #boleta * {
+    visibility: visible;
+  }
+
+  #boleta {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  /* Cualquier cosa con esta clase NO se imprime */
+  .no-print {
+    display: none !important;
+  }
+
+  header, footer, .navbar {
+    display: none !important;
+  }
+}

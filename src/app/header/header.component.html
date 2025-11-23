@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-upeu-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center gap-2" routerLink="/home">
+      <img src="logo.ico" alt="Jennifer"/>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        <li class="nav-item dropdown" routerLinkActive="active-parent">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+            Inventario
+          </a>
+          <ul class="dropdown-menu shadow-sm">
+            <li><a class="dropdown-item" routerLink="/productos" routerLinkActive="active">Productos</a></li>
+            <li><a class="dropdown-item" routerLink="/categorias" routerLinkActive="active">Categorías</a></li>
+            <li><a class="dropdown-item" routerLink="/tallas" routerLinkActive="active">Tallas</a></li>
+          </ul>
+        </li>
+
+        <!-- Contactos -->
+        <li class="nav-item dropdown" routerLinkActive="active-parent">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+            Contactos
+          </a>
+          <ul class="dropdown-menu shadow-sm">
+            <li><a class="dropdown-item" routerLink="/clientes" routerLinkActive="active">Clientes</a></li>
+            <li><a class="dropdown-item" routerLink="/proveedores" routerLinkActive="active">Proveedores</a></li>
+          </ul>
+        </li>
+
+        <!-- Links sueltos -->
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/ventas" routerLinkActive="active">Ventas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/compras" routerLinkActive="active">Compras</a>
+        </li>
+      </ul>
+
+      <form class="d-flex" role="search" (submit)="$event.preventDefault()">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+        <button class="btn btn-outline-accent" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>

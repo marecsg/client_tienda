@@ -1,0 +1,40 @@
+<div class="container mt-4">
+  <h3>Tallas</h3>
+  <hr>
+
+  <div class="row g-2 mb-3">
+    <div class="col-md-6">
+      <input class="form-control" [(ngModel)]="q" (input)="applyFilter()" placeholder="Buscar talla...">
+    </div>
+    <div class="col-md-6 d-flex gap-2">
+      <input class="form-control" [(ngModel)]="nueva" placeholder="Nueva talla...">
+      <button class="btn btn-primary" (click)="add()" [disabled]="loading">Agregar</button>
+    </div>
+  </div>
+
+  <div *ngIf="errorMsg" class="alert alert-danger py-2">{{ errorMsg }}</div>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th style="width:80px">#</th>
+          <th>Nombre</th>
+          <th style="width:120px">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of filtradas; let i = index">
+          <td>{{ i+1 }}</td>
+          <td>{{ t.nombre }}</td>
+        </tr>
+        <tr *ngIf="!loading && filtradas.length===0">
+          <td colspan="3" class="text-center">Sin resultados.</td>
+        </tr>
+        <tr *ngIf="loading">
+          <td colspan="3" class="text-center">Cargando...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

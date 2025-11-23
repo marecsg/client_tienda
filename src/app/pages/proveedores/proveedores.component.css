@@ -1,0 +1,7 @@
+.table thead {
+     background: var(--color-primario); color: #fff;
+     }
+
+.table tbody tr:hover {
+     background: var(--color-sutil);
+     }

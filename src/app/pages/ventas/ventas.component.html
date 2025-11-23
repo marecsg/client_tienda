@@ -1,0 +1,120 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Ventas</h3>
+        <button class="btn btn-primary" (click)="irANuevaVenta()">
+            + Nueva venta
+        </button>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="row g-2 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label">Cliente</label>
+                    <select class="form-select" [(ngModel)]="filtroClienteId" name="filtroCliente">
+                        <option [ngValue]="null">Todos</option>
+                        <option *ngFor="let c of clientes" [ngValue]="c.id">
+                            {{ c.nombres }} (DNI: {{ c.dni }})
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Desde</label>
+                    <input type="date" class="form-control" [(ngModel)]="filtroDesde" name="filtroDesde">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Hasta</label>
+                    <input type="date" class="form-control" [(ngModel)]="filtroHasta" name="filtroHasta">
+                </div>
+                <div class="col-md-2 d-flex gap-2">
+                    <button class="btn btn-outline-primary w-100" (click)="loadVentas()">
+                        Filtrar
+                    </button>
+                    <button class="btn btn-outline-secondary w-100" (click)="limpiarFiltros()">
+                        Limpiar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de ventas -->
+    <div class="card mb-3">
+        <div class="card-body table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
+                        <th>Total (S/)</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let v of ventas; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ v.fecha | date:'short' }}</td>
+                        <td>{{ getClienteNombre(v.clienteId) }}</td>
+                        <td>{{ v.total | number:'1.2-2' }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-info" (click)="verBoleta(v)">
+                                Ver boleta
+                            </button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="ventas.length === 0">
+                        <td colspan="5" class="text-center">No hay ventas registradas</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="text-end" *ngIf="ventas.length > 0">
+                <strong>Total filtrado: S/ {{ totalFiltrado | number:'1.2-2' }}</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Boleta abajo (detalle) -->
+    <div class="card" *ngIf="selectedVenta">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span>Boleta / Comprobante</span>
+            <button class="btn btn-sm btn-outline-danger" (click)="cerrarBoleta()">
+                Cerrar
+            </button>
+        </div>
+        <div class="card-body">
+            <p><strong>N° Venta:</strong> {{ selectedVenta?.id }}</p>
+            <p><strong>Fecha:</strong> {{ selectedVenta?.fecha | date:'short' }}</p>
+            <p><strong>Cliente:</strong>
+                {{ selectedVenta ? getClienteNombre(selectedVenta.clienteId) : '' }}
+            </p>
+            <hr>
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unit.</th>
+                        <th>Importe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let d of selectedVenta?.detalles">
+                        <td>{{ getProductoNombre(d.productoId) }}</td>
+                        <td>{{ d.cantidad }}</td>
+                        <td>S/ {{ d.precioUnitario | number:'1.2-2' }}</td>
+                        <td>S/ {{ d.cantidad * d.precioUnitario | number:'1.2-2' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-end">
+                <h5>
+                    Total:
+                    <strong>S/ {{ selectedVenta?.total | number:'1.2-2' }}</strong>
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>
