@@ -1,0 +1,28 @@
+<div class="login-container">
+  <div class="login-card">
+    <img src="LOGONEGRO.png" alt="Logo Jennifer" class="login-logo">
+    <h2>Iniciar Sesión</h2>
+    
+    <!-- Mensaje de error dinámico -->
+    <div *ngIf="loginError" class="alert alert-danger mt-3">
+      Usuario o contraseña incorrectos.
+    </div>
+
+    <form (ngSubmit)="login()">
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Usuario</label>
+        <input type="text" id="nombre" class="form-control" [(ngModel)]="nombre" name="nombre" required>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <input type="password" id="password" class="form-control" [(ngModel)]="password" name="password" required>
+      </div>
+      
+      <!-- Botón con estado de carga -->
+      <button type="submit" class="btn btn-primary w-100" [disabled]="isLoading">
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        <span role="status">{{ isLoading ? 'Ingresando...' : 'Ingresar' }}</span>
+      </button>
+    </form>
+  </div>
+</div>

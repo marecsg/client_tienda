@@ -7,11 +7,12 @@ import { ClienteService } from '../../services/cliente.service';
 import { Router } from '@angular/router';
 import { IProducto } from '../../interfaces/producto.interface';
 import { ProductoService } from '../../services/producto.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-ventas',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgxPaginationModule],
   templateUrl: './ventas.component.html',
   styleUrl: './ventas.component.css'
 })
@@ -26,6 +27,8 @@ export class VentasComponent implements OnInit {
   filtroHasta: string = '';
 
   selectedVenta: VentaResponse | null = null;
+
+  p: number = 1;
 
   constructor(
     private ventaService: VentaService,

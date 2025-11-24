@@ -1,15 +1,88 @@
 <div class="container mt-4">
-  <div class="card">
-    <div class="card-body">
-      <h1 class="card-title">¡Bienvenido al Sistema!</h1>
-      <p class="card-text">
-        Has iniciado sesión correctamente. Ahora tienes acceso a todas las funcionalidades de la aplicación.
-      </p>
-      <p>
-        Desde aquí puedes navegar a otras secciones utilizando el menú superior.
-      </p>
- 
+    <!-- Bienvenida -->
+    <div class="mb-4">
+        <h1 class="fw-bold text-primary">¡Bienvenido al Sistema!</h1>
+        <p class="text-muted">Resumen general de tu tienda hoy.</p>
     </div>
-  </div>
-</div>
 
+    <!-- Tarjetas de Indicadores (KPIs) -->
+    <div class="row g-4 mb-5">
+        <!-- Ventas del Día -->
+        <div class="col-md-3">
+            <div class="card shadow-sm border-start border-success border-4 h-100">
+                <div class="card-body">
+                    <h6 class="card-title text-muted text-uppercase fs-7">Ventas de Hoy</h6>
+                    <h2 class="mt-2 mb-0 text-success fw-bold">S/ {{ ventasDelDia | number:'1.2-2' }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clientes Totales -->
+        <div class="col-md-3">
+            <div class="card shadow-sm border-start border-primary border-4 h-100">
+                <div class="card-body">
+                    <h6 class="card-title text-muted text-uppercase fs-7">Clientes Registrados</h6>
+                    <h2 class="mt-2 mb-0 text-primary fw-bold">{{ totalClientes }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stock Bajo -->
+        <div class="col-md-3">
+            <div class="card shadow-sm border-start border-danger border-4 h-100">
+                <div class="card-body">
+                    <h6 class="card-title text-muted text-uppercase fs-7">Alerta Stock Bajo</h6>
+                    <h2 class="mt-2 mb-0 text-danger fw-bold">{{ productosBajoStock }}</h2>
+                    <small class="text-muted">Productos por agotar</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Histórico -->
+        <div class="col-md-3">
+            <div class="card shadow-sm border-start border-secondary border-4 h-100">
+                <div class="card-body">
+                    <h6 class="card-title text-muted text-uppercase fs-7">Ventas Totales</h6>
+                    <h2 class="mt-2 mb-0 text-dark fw-bold">S/ {{ totalVentas | number:'1.2-2' }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accesos Rápidos -->
+    <h4 class="mb-3 fw-bold">Accesos Rápidos</h4>
+    <div class="row g-3">
+        <div class="col-md-4">
+            <a routerLink="/ventas/new" class="card h-100 text-decoration-none hover-card bg-light">
+                <div class="card-body text-center p-4">
+                    <div class="fs-1 mb-2">🛒</div>
+                    <h5 class="card-title fw-bold text-dark">Nueva Venta</h5>
+                    <p class="card-text text-muted small">Registrar una salida de productos</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a routerLink="/compras/new" class="card h-100 text-decoration-none hover-card bg-light">
+                <div class="card-body text-center p-4">
+                    <div class="fs-1 mb-2">📦</div>
+                    <h5 class="card-title fw-bold text-dark">Nuevo Ingreso</h5>
+                    <p class="card-text text-muted small">Registrar compra a proveedor</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a routerLink="/clientes/new" class="card h-100 text-decoration-none hover-card bg-light">
+                <div class="card-body text-center p-4">
+                    <div class="fs-1 mb-2">👥</div>
+                    <h5 class="card-title fw-bold text-dark">Nuevo Cliente</h5>
+                    <p class="card-text text-muted small">Registrar un cliente nuevo</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Imagen de fondo decorativa opcional -->
+    <div class="text-center mt-5 opacity-50">
+        <img src="logo.ico" alt="Logo" style="max-height: 100px; filter: grayscale(100%);">
+    </div>
+</div>

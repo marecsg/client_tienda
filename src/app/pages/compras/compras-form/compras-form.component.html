@@ -1,0 +1,99 @@
+<div class="container mt-4">
+    <!-- Encabezado con botón Volver (Igual a Ventas) -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Registrar Ingreso de Mercadería</h3>
+        <button class="btn btn-secondary" (click)="volver()">Volver</button>
+    </div>
+
+    <!-- Formulario de datos principales (Estructura alineada con Ventas) -->
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="row mb-3">
+                <!-- Columna Proveedor (Más ancha, como Cliente en Ventas) -->
+                <div class="col-md-6">
+                    <label class="form-label">Proveedor</label>
+                    <select class="form-select" [(ngModel)]="compra.proveedorId">
+                        <option [ngValue]="null">-- Seleccionar --</option>
+                        <option *ngFor="let p of proveedores" [ngValue]="p.id">
+                            {{ p.nombre }} ({{ p.ruc }})
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Columna Fecha -->
+                <div class="col-md-3">
+                    <label class="form-label">Fecha de Ingreso</label>
+                    <input type="datetime-local" class="form-control" [(ngModel)]="compra.fecha">
+                </div>
+
+                <!-- Columna Usuario (Opcional, estilo informativo) -->
+                <div class="col-md-3">
+                    <label class="form-label">Responsable</label>
+                    <input type="text" class="form-control bg-light" value="ADMINISTRADOR" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detalle de Productos (Tabla igual a Ventas) -->
+    <div class="card mb-3">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span>Productos a Ingresar</span>
+            <button class="btn btn-sm btn-outline-success" (click)="addDetalle()">
+                + Agregar Fila
+            </button>
+        </div>
+        <div class="card-body table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Producto</th>
+                        <th style="width: 120px;">Cantidad</th>
+                        <th style="width: 150px;">Costo Unit.</th>
+                        <th style="width: 100px;">Subtotal</th>
+                        <th style="width: 70px;" class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of compra.detalles; let i = index">
+                        <td>
+                            <select class="form-select" [(ngModel)]="item.productoId" (change)="onProductoChange(item)">
+                                <option [ngValue]="0">-- Buscar Producto --</option>
+                                <option *ngFor="let prod of productos" [ngValue]="prod.id">
+                                    {{ prod.nombre }} - {{ prod.color }} ({{ prod.tallaNombre }})
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" [(ngModel)]="item.cantidad" min="1">
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" [(ngModel)]="item.precioUnitario" min="0"
+                                step="0.01">
+                        </td>
+                        <td>
+                            S/ {{ (item.cantidad * item.precioUnitario) | number:'1.2-2' }}
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-danger" (click)="removeDetalle(i)"
+                                *ngIf="compra.detalles.length > 1">
+                                ✕
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-end mt-3">
+                <h5>Total: <span class="badge bg-primary">S/ {{ totalEstimado | number:'1.2-2' }}</span></h5>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón Guardar Final (Alineado a la derecha) -->
+    <div class="d-flex justify-content-end mb-4">
+        <button class="btn btn-primary" (click)="guardarCompra()">
+            Guardar Ingreso
+        </button>
+    </div>
+</div>

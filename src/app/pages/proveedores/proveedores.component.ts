@@ -5,11 +5,12 @@ import { Router, RouterLink } from '@angular/router';
 import { IProveedor } from '../../interfaces/proveedor.interface';
 import { ProveedorService } from '../../services/proveedor.service';
 import Swal from 'sweetalert2';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-proveedores',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, NgxPaginationModule],
   templateUrl: './proveedores.component.html',
   styleUrl: './proveedores.component.css'
 })
@@ -21,6 +22,8 @@ export class ProveedoresComponent implements OnInit{
       public filteredProveedores: IProveedor[] = [];
       public proveedorService = inject(ProveedorService);
       public router = inject(Router);
+
+      p: number = 1;
   
       ngOnInit(): void {
       this.loadProveedores();

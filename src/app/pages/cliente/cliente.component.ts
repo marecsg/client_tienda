@@ -5,17 +5,20 @@ import { Router, RouterLink } from '@angular/router';
 import { ICliente } from '../../interfaces/cliente.interface';
 import { ClienteService } from '../../services/cliente.service';
 import Swal from 'sweetalert2';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-cliente',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, NgxPaginationModule],
   templateUrl: './cliente.component.html',
   styleUrl: './cliente.component.css'
 })
 export class ClienteComponent implements OnInit{
     public searchClienteName= '';
     public selectedClienteForModal: ICliente | null = null;
+
+    p: number = 1;
     
     public allClientes: ICliente[] = [];
     public filteredClientes: ICliente[] = [];
@@ -31,6 +34,7 @@ export class ClienteComponent implements OnInit{
       next: (clientes) => {
         this.allClientes = clientes;
         this.filteredClientes = clientes;
+        this.p = 1;
         console.log('Clientes cargados:', this.allClientes);
       },
       error: (err) => {

@@ -53,8 +53,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let v of ventas; let i = index">
-                        <td>{{ i + 1 }}</td>
+                    <tr *ngFor="let v of ventas | paginate: { itemsPerPage: 7, currentPage: p }; let i = index">
+                        <!-- Calculamos el índice real para que no empiece en 1 en cada página -->
+                        <td>{{ (10 * (p - 1)) + i + 1 }}</td>
                         <td>{{ v.fecha | date:'short' }}</td>
                         <td>{{ getClienteNombre(v.clienteId) }}</td>
                         <td>{{ v.total | number:'1.2-2' }}</td>
@@ -70,51 +71,55 @@
                 </tbody>
             </table>
 
-            <div class="text-end" *ngIf="ventas.length > 0">
-                <strong>Total filtrado: S/ {{ totalFiltrado | number:'1.2-2' }}</strong>
+            <div class="d-flex justify-content-between align-items-center mt-3" *ngIf="ventas.length > 0">
+                <!-- Controles de Paginación -->
+                <pagination-controls (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Siguiente">
+                </pagination-controls>
+                <div class="text-end" *ngIf="ventas.length > 0">
+                    <strong>Total filtrado: S/ {{ totalFiltrado | number:'1.2-2' }}</strong>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Boleta abajo (detalle) -->
-    <div class="card" *ngIf="selectedVenta">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <span>Boleta / Comprobante</span>
-            <button class="btn btn-sm btn-outline-danger" (click)="cerrarBoleta()">
-                Cerrar
-            </button>
-        </div>
-        <div class="card-body">
-            <p><strong>N° Venta:</strong> {{ selectedVenta?.id }}</p>
-            <p><strong>Fecha:</strong> {{ selectedVenta?.fecha | date:'short' }}</p>
-            <p><strong>Cliente:</strong>
-                {{ selectedVenta ? getClienteNombre(selectedVenta.clienteId) : '' }}
-            </p>
-            <hr>
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Precio Unit.</th>
-                        <th>Importe</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let d of selectedVenta?.detalles">
-                        <td>{{ getProductoNombre(d.productoId) }}</td>
-                        <td>{{ d.cantidad }}</td>
-                        <td>S/ {{ d.precioUnitario | number:'1.2-2' }}</td>
-                        <td>S/ {{ d.cantidad * d.precioUnitario | number:'1.2-2' }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="text-end">
-                <h5>
-                    Total:
-                    <strong>S/ {{ selectedVenta?.total | number:'1.2-2' }}</strong>
-                </h5>
+        <!-- Boleta abajo (detalle) -->
+        <div class="card" *ngIf="selectedVenta">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Boleta / Comprobante</span>
+                <button class="btn btn-sm btn-outline-danger" (click)="cerrarBoleta()">
+                    Cerrar
+                </button>
+            </div>
+            <div class="card-body">
+                <p><strong>N° Venta:</strong> {{ selectedVenta?.id }}</p>
+                <p><strong>Fecha:</strong> {{ selectedVenta?.fecha | date:'short' }}</p>
+                <p><strong>Cliente:</strong>
+                    {{ selectedVenta ? getClienteNombre(selectedVenta.clienteId) : '' }}
+                </p>
+                <hr>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unit.</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let d of selectedVenta?.detalles">
+                            <td>{{ getProductoNombre(d.productoId) }}</td>
+                            <td>{{ d.cantidad }}</td>
+                            <td>S/ {{ d.precioUnitario | number:'1.2-2' }}</td>
+                            <td>S/ {{ d.cantidad * d.precioUnitario | number:'1.2-2' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="text-end">
+                    <h5>
+                        Total:
+                        <strong>S/ {{ selectedVenta?.total | number:'1.2-2' }}</strong>
+                    </h5>
+                </div>
             </div>
         </div>
     </div>
-</div>

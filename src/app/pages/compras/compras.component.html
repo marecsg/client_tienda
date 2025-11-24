@@ -1,0 +1,127 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Compras (Ingresos)</h3>
+        <button class="btn btn-primary" (click)="irNuevaCompra()">
+            + Nueva Compra
+        </button>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="row g-2 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label">Proveedor</label>
+                    <select class="form-select" [(ngModel)]="filtroProveedorId">
+                        <option [ngValue]="null">Todos</option>
+                        <option *ngFor="let prov of proveedores" [ngValue]="prov.id">
+                            {{ prov.nombre }} (RUC: {{ prov.ruc }})
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Desde</label>
+                    <input type="date" class="form-control" [(ngModel)]="filtroDesde">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Hasta</label>
+                    <input type="date" class="form-control" [(ngModel)]="filtroHasta">
+                </div>
+                <div class="col-md-2 d-flex gap-2">
+                    <button class="btn btn-outline-primary w-100" (click)="loadCompras()">Filtrar</button>
+                    <button class="btn btn-outline-secondary w-100" (click)="limpiarFiltros()">Limpiar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla Principal -->
+    <div class="card mb-3">
+        <div class="card-body table-responsive p-0">
+            <table class="table table-striped table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Fecha</th>
+                        <th>Proveedor</th>
+                        <th>Total (S/)</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of compras | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
+                        <td>{{ (10 * (p - 1)) + i + 1 }}</td>
+                        <td>{{ c.fecha | date:'short' }}</td>
+                        <td>{{ getProveedorNombre(c.proveedorId) }}</td>
+                        <td>{{ c.total | number:'1.2-2' }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-info" (click)="verDetalle(c)">
+                                Ver Detalle
+                            </button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="compras.length === 0">
+                        <td colspan="5" class="text-center p-4">No se encontraron compras registradas.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Footer con Paginación y Total -->
+        <div class="card-footer bg-white d-flex justify-content-between align-items-center py-3" *ngIf="compras.length > 0">
+            <div class="m-0 p-0 d-flex align-items-center">
+                <pagination-controls 
+                    (pageChange)="p = $event"
+                    previousLabel="Ant."
+                    nextLabel="Sig."
+                    class="my-pagination">
+                </pagination-controls>
+            </div>
+            <div class="text-end">
+                Total Compras: <strong class="text-primary">S/ {{ totalFiltrado | number:'1.2-2' }}</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detalle de la Compra (Modal en página) -->
+    <div class="card shadow-sm border-info mt-4" *ngIf="selectedCompra">
+        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"> Detalle de Ingreso #{{ selectedCompra.id }}</h5>
+            <button class="btn btn-sm btn-light text-danger fw-bold" (click)="cerrarDetalle()">✕ Cerrar</button>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Proveedor:</strong> {{ getProveedorNombre(selectedCompra.proveedorId) }}
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <strong>Fecha:</strong> {{ selectedCompra.fecha | date:'medium' }}
+                </div>
+            </div>
+            <table class="table table-bordered table-sm">
+                <thead class="table-light">
+                    <tr>
+                        <th>Producto</th>
+                        <th class="text-center">Cant. Recibida</th>
+                        <th class="text-end">Costo Unit.</th>
+                        <th class="text-end">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let det of selectedCompra.detalles">
+                        <td>{{ getProductoNombre(det.productoId) }}</td>
+                        <td class="text-center">{{ det.cantidad }}</td>
+                        <td class="text-end">S/ {{ det.precioUnitario | number:'1.2-2' }}</td>
+                        <td class="text-end">S/ {{ (det.cantidad * det.precioUnitario) | number:'1.2-2' }}</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-end fw-bold">TOTAL COMPRA:</td>
+                        <td class="text-end fw-bold text-primary">S/ {{ selectedCompra.total | number:'1.2-2' }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

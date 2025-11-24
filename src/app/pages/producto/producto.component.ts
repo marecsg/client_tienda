@@ -5,13 +5,14 @@ import { Router, RouterLink } from '@angular/router';
 import { IProducto } from '../../interfaces/producto.interface';
 import { ProductoService } from '../../services/producto.service';
 import Swal from 'sweetalert2';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-producto',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, NgxPaginationModule],
   templateUrl: './producto.component.html',
   styleUrl: './producto.component.css'
 })
@@ -19,6 +20,8 @@ export class ProductoComponent implements OnInit{
   searchProductoName = '';
   selectedProductoForModal: IProducto | null = null;
   private imageModal: any;
+
+  p: number = 1;
 
   allProductos: IProducto[] = [];
   filteredProductos: IProducto[] = [];

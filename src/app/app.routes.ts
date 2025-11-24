@@ -11,12 +11,18 @@ import { ProveedoresComponent } from './pages/proveedores/proveedores.component'
 import { ProveedoresFormComponent } from './pages/proveedores/proveedores-form/proveedores-form.component';
 import { VentasFormComponent } from './pages/ventas/ventas-form/ventas-form.component';
 import { VentasComponent } from './pages/ventas/ventas.component';
+import { ComprasComponent } from './pages/compras/compras.component';
+import { ComprasFormComponent } from './pages/compras/compras-form/compras-form.component';
+import { LoginComponent } from './pages/login/login.component';
+import { authGuard } from './core/guards/auth.guard';
 
 
 export const routes: Routes = [
+  { path: 'login', component: LoginComponent },
   {
     path: '',
     component: MainLayoutComponent,
+    canActivate:[authGuard],
     children: [
       { path: 'home', component: HomeComponent },
       { path: 'clientes', component: ClienteComponent },
@@ -31,6 +37,8 @@ export const routes: Routes = [
       { path: 'proveedores/edit/:id', component: ProveedoresFormComponent },
       { path: 'ventas', component: VentasComponent },
       { path: 'ventas/new', component: VentasFormComponent },
+      { path: 'compras', component: ComprasComponent },       // <--- RUTA LISTA
+      { path: 'compras/new', component: ComprasFormComponent }, // <--- RUTA NUEVA
 
       {
         path: 'categorias',

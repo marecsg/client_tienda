@@ -48,6 +48,27 @@
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
         <button class="btn btn-outline-accent" type="submit">Search</button>
       </form>
+
+      <div *ngIf="usuario$ | async as usuario" class="navbar-nav ms-3">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <!-- Puedes agregar un ícono de perfil aquí si quieres -->
+            <i class="bi bi-person-circle me-2"></i> <!-- Ejemplo con Bootstrap Icons -->
+            {{ usuario.nombre }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><h6 class="dropdown-header">Perfil</h6></li>
+            <li><span class="dropdown-item-text text-muted">{{ usuario.nombre }}</span></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <button class="dropdown-item" (click)="logout()">
+                <i class="bi bi-box-arrow-right me-2"></i> <!-- Ejemplo con Bootstrap Icons -->
+                Cerrar Sesión
+              </button>
+            </li>
+          </ul>
+        </li>
+      </div>
     </div>
   </div>
 </nav>
